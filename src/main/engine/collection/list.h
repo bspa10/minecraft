@@ -2,7 +2,7 @@
 
 #include "../core/types.h"
 
-typedef struct {
+struct TOEList {
     cstring_t type;
     uint64_t allocated;
 
@@ -10,8 +10,8 @@ typedef struct {
     uint16_t length;
 
     void     * data;
-} TOEList;
+};
 
 
-TOEList * toe_list_create();
-void toe_list_destroy(TOEList * list);
+struct TOEList * toe_list_create();
+void toe_list_destroy(struct TOEList * list);

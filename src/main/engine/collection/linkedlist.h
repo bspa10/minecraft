@@ -2,14 +2,14 @@
 
 #include "list.h"
 
-typedef struct {
+struct TOELinkedNode{
     uint64_t allocated;
 
     void  * data;
 
     void  * next;
     void  * previews;
-} TOELinkedNode;
+};
 
-void toe_linkedlist_clear(TOEList * list);
-void toe_linkedlist_add(TOEList * list, void * data, uint64_t size);
+void toe_linkedlist_clear(struct TOEList * list);
+void toe_linkedlist_add(struct TOEList * list, void * data, uint64_t size);
