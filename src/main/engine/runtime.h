@@ -4,14 +4,28 @@
 
 struct TOERuntime {
     struct {
+        uint32_t  handle;
+        uint16_t  rate;
+        uint16_t  rotation;
+
+        void * intrinsics;
+
+        struct {
+            uint16_t  width;
+            uint16_t  height;
+        } resolution;
+    } monitor;
+
+    struct {
+        uint32_t handle;
         cstring_t title;
         struct {
-            uint16_t x;
-            uint16_t y;
+            int16_t x;
+            int16_t y;
         } position;
         struct {
-            uint16_t width;
-            uint16_t height;
+            int16_t width;
+            int16_t height;
         } size;
     } window;
 

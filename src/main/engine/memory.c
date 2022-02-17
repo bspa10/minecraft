@@ -43,11 +43,11 @@ string_t to_string(uint64_t size) {
     return copy;
 }
 
-void print_memory_trace(uint64_t size) {
+void print_memory_trace(cstring_t sign, uint64_t size) {
     string_t str_size = to_string(size);
     string_t str_total = to_string(registry.allocated);
 
-    TOE_LOG_TRACE("[memory.h] registry->allocated: (+%s) %s", str_size, str_total)
+    TOE_LOG_TRACE("[memory.h] registry->allocated: (%s%s) %s", sign, str_size, str_total)
 
     toe_platform_memory_free(str_size);
     toe_platform_memory_free(str_total);
@@ -60,7 +60,7 @@ void toe_memory_initialize() {
     registry.allocated = base;
     registry.pool[TOE_MEMORY_APPLICATION] = base;
 
-    print_memory_trace(base);
+    print_memory_trace("+", base);
 }
 
 void toe_memory_destroy() {
@@ -68,7 +68,7 @@ void toe_memory_destroy() {
     uint64_t base = sizeof (struct TOEMemory);
 
     registry.allocated -= base;
-    print_memory_trace(base);
+    print_memory_trace("-", base);
 
     if (registry.allocated != 0)
         TOE_LOG_ERROR("[memory.h] Memory Leak of %d", registry.allocated)
@@ -79,7 +79,7 @@ TOEAPI void * toe_memory_allocate(uint64_t size, enum TOEMemoryType tag) {
 
     registry.allocated += size;
     registry.pool[tag] += size;
-    print_memory_trace(size);
+    print_memory_trace("+", size);
 
     return block;
 }
@@ -89,7 +89,7 @@ TOEAPI void toe_memory_free(void * block, uint64_t  size, enum TOEMemoryType tag
 
     registry.allocated -= size;
     registry.pool[tag] -= size;
-    print_memory_trace(size);
+    print_memory_trace("-", size);
 }
 
 TOEAPI void * toe_memory_zero(void * block, uint64_t  size) {
